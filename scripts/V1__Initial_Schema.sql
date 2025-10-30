@@ -132,7 +132,7 @@ CREATE TABLE roles (
 
 CREATE TABLE permisos (
     id SERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL,
+    nombre VARCHAR NOT NULL,
     descripcion VARCHAR NOT NULL
 );
 
