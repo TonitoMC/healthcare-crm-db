@@ -255,29 +255,43 @@ VALUES
 (7, (SELECT nombre FROM pacientes WHERE id = 7), '2025-05-11 16:45:00-06', 1200),
 (8, (SELECT nombre FROM pacientes WHERE id = 8), '2025-05-05 09:00:00-06', 1200);
 
-INSERT INTO horarios_laborales (dia_semana, hora_apertura, hora_cierre) VALUES
-(1, '09:00:00', '13:00:00'),  -- Lunes
-(2, '09:00:00', '13:00:00'),  -- Martes
-(3, '09:00:00', '13:00:00'),  -- Miércoles
-(4, '09:00:00', '13:00:00'),  -- Jueves
-(5, '09:00:00', '13:00:00'),  -- Viernes
+
+
+-- ============================================================================
+-- HORARIOS LABORALES (Recurrencia semanal)
+-- ============================================================================
+INSERT INTO horarios_laborales (dia_semana, hora_apertura, hora_cierre, abierto) VALUES
+-- Lunes a Viernes (mañana)
+(1, '09:00:00', '13:00:00', TRUE),  -- Lunes
+(2, '09:00:00', '13:00:00', TRUE),  -- Martes
+(3, '09:00:00', '13:00:00', TRUE),  -- Miércoles
+(4, '09:00:00', '13:00:00', TRUE),  -- Jueves
+(5, '09:00:00', '13:00:00', TRUE),  -- Viernes
 
 -- Lunes a Viernes (tarde)
-(1, '15:00:00', '18:00:00'),   -- Lunes
-(2, '15:00:00', '18:00:00'),   -- Martes
-(3, '15:00:00', '18:00:00'),   -- Miércoles
-(4, '15:00:00', '18:00:00'),   -- Jueves
-(5, '15:00:00', '18:00:00'),   -- Viernes
+(1, '15:00:00', '18:00:00', TRUE),  -- Lunes
+(2, '15:00:00', '18:00:00', TRUE),  -- Martes
+(3, '15:00:00', '18:00:00', TRUE),  -- Miércoles
+(4, '15:00:00', '18:00:00', TRUE),  -- Jueves
+(5, '15:00:00', '18:00:00', TRUE),  -- Viernes
 
 -- Sábado (solo mañana)
-(6, '09:00:00', '13:00:00');   -- Sábado
+(6, '09:00:00', '13:00:00', TRUE),  -- Sábado
 
-INSERT INTO horarios_especiales (fecha, hora_apertura, hora_cierre) VALUES
-('2024-10-23', '09:00:00', '12:00:00'),
-('2024-12-24', '09:00:00', '13:00:00'),
-('2024-09-16', '15:00:00', '19:00:00'),
-('2024-07-15', '10:00:00', '14:00:00'),
-('2024-11-08', '08:00:00', '12:00:00');
+-- Domingo (cerrado)
+(7, NULL, NULL, FALSE);             -- Domingo cerrado
+
+
+-- ============================================================================
+-- HORARIOS ESPECIALES (Overrides de días específicos)
+-- ============================================================================
+INSERT INTO horarios_especiales (fecha, hora_apertura, hora_cierre, abierto) VALUES
+('2025-11-04', '09:00:00', '12:00:00', TRUE),  -- shortened day
+('2025-11-05', NULL, NULL, FALSE),             -- closed (holiday)
+('2025-11-06', '15:00:00', '19:00:00', TRUE),  -- late start
+('2025-11-08', '10:00:00', '14:00:00', TRUE),  -- Saturday adjusted hours
+('2025-11-09', NULL, NULL, FALSE);             -- Sunday special closure
+
 
 INSERT INTO examenes (paciente_id, consulta_id, tipo, fecha, s3_key, file_size, mime_type) VALUES
 (1, 1, 'Tonometría de aire', '2023-01-15', 'examenes/1/20230115_tonometria_aire.pdf', 892640, 'application/pdf'),

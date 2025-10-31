@@ -144,9 +144,9 @@ CREATE TABLE roles_permisos (
 
 CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
-    username VARCHAR NOT NULL,
+    username VARCHAR UNIQUE NOT NULL,
     password_hash VARCHAR NOT NULL,
-    correo VARCHAR NOT NULL
+    correo VARCHAR UNIQUE NOT NULL
 );
 
 CREATE TABLE usuarios_roles (
@@ -166,14 +166,24 @@ CREATE TABLE logs (
 
 CREATE TABLE horarios_laborales (
     id SERIAL PRIMARY KEY,
-    hora_apertura TIME NOT NULL,
-    hora_cierre TIME NOT NULL,
-    dia_semana INTEGER NOT NULL
+    dia_semana INTEGER NOT NULL CHECK (dia_semana BETWEEN 1 AND 7),
+    hora_apertura TIME,
+    hora_cierre TIME,
+    abierto BOOLEAN NOT NULL DEFAULT TRUE,
+    CHECK (
+        (abierto = TRUE AND hora_apertura IS NOT NULL AND hora_cierre IS NOT NULL)
+        OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
+    )
 );
 
 CREATE TABLE horarios_especiales (
     id SERIAL PRIMARY KEY,
-    fecha DATE NOT NULL,
-    hora_apertura TIME NOT NULL,
-    hora_cierre TIME NOT NULL
+    fecha DATE NOT NULL UNIQUE,
+    hora_apertura TIME,
+    hora_cierre TIME,
+    abierto BOOLEAN NOT NULL DEFAULT TRUE,
+    CHECK (
+        (abierto = TRUE AND hora_apertura IS NOT NULL AND hora_cierre IS NOT NULL)
+        OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
+    )
 );
