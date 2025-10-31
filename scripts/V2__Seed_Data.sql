@@ -132,7 +132,7 @@ INSERT INTO roles (nombre, descripcion) VALUES
 ('admin', 'desc');
 
 -- Permisos
-INSERT INTO permisos (name, descripcion) VALUES
+INSERT INTO permisos (nombre, descripcion) VALUES
 ('gestion_usuarios', 'Crear y editar usuarios y roles'),
 ('gestion_pacientes', 'Administrar registros de pacientes'),
 ('gestion_citas', 'Administrar citas');
