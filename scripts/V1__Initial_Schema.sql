@@ -186,4 +186,4 @@ CREATE TABLE horarios_especiales (
         (abierto = TRUE AND hora_apertura IS NOT NULL AND hora_cierre IS NOT NULL)
         OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
     )
-    );
+);
