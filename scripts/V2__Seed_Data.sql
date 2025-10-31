@@ -288,6 +288,7 @@ INSERT INTO horarios_laborales (dia_semana, hora_apertura, hora_cierre, abierto)
 INSERT INTO horarios_especiales (fecha, hora_apertura, hora_cierre, abierto) VALUES
 ('2025-11-04', '09:00:00', '12:00:00', TRUE),  -- shortened day
 ('2025-11-05', NULL, NULL, FALSE),             -- closed (holiday)
+('2025-11-06', '12:00:00', '13:00:00', TRUE),  -- late start
 ('2025-11-06', '15:00:00', '19:00:00', TRUE),  -- late start
 ('2025-11-08', '10:00:00', '14:00:00', TRUE),  -- Saturday adjusted hours
 ('2025-11-09', NULL, NULL, FALSE);             -- Sunday special closure

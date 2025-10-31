@@ -178,7 +178,7 @@ CREATE TABLE horarios_laborales (
 
 CREATE TABLE horarios_especiales (
     id SERIAL PRIMARY KEY,
-    fecha DATE NOT NULL UNIQUE,
+    fecha DATE NOT NULL,
     hora_apertura TIME,
     hora_cierre TIME,
     abierto BOOLEAN NOT NULL DEFAULT TRUE,
@@ -186,4 +186,4 @@ CREATE TABLE horarios_especiales (
         (abierto = TRUE AND hora_apertura IS NOT NULL AND hora_cierre IS NOT NULL)
         OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
     )
-);
+    );
