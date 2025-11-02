@@ -187,3 +187,26 @@ CREATE TABLE horarios_especiales (
         OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
     )
 );
+
+
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
+ALTER TABLE horarios_laborales
+ADD CONSTRAINT no_overlap_laborales
+EXCLUDE USING gist (
+  dia_semana WITH =,
+  numrange(extract(epoch from hora_apertura),
+           extract(epoch from hora_cierre),
+           '[]') WITH &&
+)
+WHERE (abierto);
+
+ALTER TABLE horarios_especiales
+ADD CONSTRAINT no_overlap_especiales
+EXCLUDE USING gist (
+  fecha WITH =,
+  numrange(extract(epoch from hora_apertura),
+           extract(epoch from hora_cierre),
+           '[]') WITH &&
+)
+WHERE (abierto);
