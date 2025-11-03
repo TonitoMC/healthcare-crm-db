@@ -124,7 +124,7 @@ INSERT INTO usuarios (username, password_hash, correo) VALUES
 ('jmerida', '1234', 'jmerida@gmail.com'),
 ('jlopez', '1234', 'jlopez@gmail.com');
 
--- Roles
+-- Roles - NO TOCAR EL ORDEN POR FAVOR O TRUENAN COSAS DEL BACKEND
 INSERT INTO roles (nombre, descripcion) VALUES
 ('medico', 'Rol de medico: Tiene todos los permisos de manejo del programa'),
 ('secretario', 'desc'),
