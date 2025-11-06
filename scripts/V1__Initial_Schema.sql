@@ -126,20 +126,21 @@ CREATE TABLE tutores (
 
 CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR NOT NULL,
+    nombre VARCHAR UNIQUE NOT NULL,
     descripcion VARCHAR NOT NULL
 );
 
 CREATE TABLE permisos (
     id SERIAL PRIMARY KEY,
-    nombre VARCHAR NOT NULL,
+    nombre VARCHAR UNIQUE NOT NULL,
     descripcion VARCHAR NOT NULL
 );
 
 CREATE TABLE roles_permisos (
     id SERIAL PRIMARY KEY,
-    rol_id INTEGER NOT NULL REFERENCES roles(id),
-    permiso_id INTEGER NOT NULL REFERENCES permisos(id)
+    rol_id INTEGER NOT NULL REFERENCES roles(id) ON DELETE CASCADE,
+    permiso_id INTEGER NOT NULL REFERENCES permisos(id),
+    CONSTRAINT uq_roles_permisos UNIQUE (rol_id, permiso_id)
 );
 
 CREATE TABLE usuarios (
@@ -151,8 +152,9 @@ CREATE TABLE usuarios (
 
 CREATE TABLE usuarios_roles (
     id SERIAL PRIMARY KEY,
-    usuario_id INTEGER NOT NULL REFERENCES usuarios(id),
-    rol_id INTEGER NOT NULL REFERENCES roles(id)
+    usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+    rol_id INTEGER NOT NULL REFERENCES roles(id),
+    CONSTRAINT uq_usuarios_roles UNIQUE (usuario_id, rol_id)
 );
 
 CREATE TABLE logs (

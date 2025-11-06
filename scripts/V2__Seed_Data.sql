@@ -127,7 +127,7 @@ INSERT INTO usuarios (username, password_hash, correo) VALUES
 -- Roles - NO TOCAR EL ORDEN POR FAVOR O TRUENAN COSAS DEL BACKEND
 INSERT INTO roles (nombre, descripcion) VALUES
 ('medico', 'Rol de medico: Tiene todos los permisos de manejo del programa'),
-('secretario', 'desc'),
+('secretario', 'Rol de secretario: Tiene los permisos que el medico designe'),
 ('admin', 'Superusuario del sistema: Tiene todos los permisos por defecto');
 
 -- Permisos
@@ -146,7 +146,7 @@ INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
 INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (1, 2),
 (1, 3),
-(2, 2),
+(2, 1),
 (3, 1),
 (3, 2),
 (3, 3);
