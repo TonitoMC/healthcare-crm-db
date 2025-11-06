@@ -108,7 +108,7 @@ CREATE TABLE examenes (
     paciente_id INTEGER NOT NULL REFERENCES pacientes(id),
     consulta_id INTEGER REFERENCES consultas(id),
     tipo VARCHAR NOT NULL,
-    fecha DATE,
+    fecha DATE DEFAULT CURRENT_DATE,
     s3_key VARCHAR(255),
     file_size BIGINT,
     mime_type VARCHAR(50),
