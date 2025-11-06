@@ -66,7 +66,8 @@ CREATE TABLE consultas (
     paciente_id INTEGER NOT NULL REFERENCES pacientes(id),
     motivo VARCHAR NOT NULL DEFAULT 'Consulta General',
     cuestionario_id INTEGER REFERENCES cuestionarios(id),
-    fecha DATE NOT NULL
+    fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+    completada BOOL NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE consultas_preguntas (

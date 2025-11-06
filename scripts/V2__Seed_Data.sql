@@ -134,7 +134,11 @@ INSERT INTO roles (nombre, descripcion) VALUES
 INSERT INTO permisos (nombre, descripcion) VALUES
 ('ver-horarios', 'Permite visualizar los horarios laborales, al igual que horarios especiales por fecha'),
 ('editar-horarios', 'Permite modificar los horarios laborales o especiales'),
-('manejar-usuarios', 'Permite registrar y manejar usuarios dentro del sistema');
+('manejar-usuarios', 'Permite registrar y manejar usuarios dentro del sistema'),
+('ver-consultas', 'Permite ver consultas'),
+('manejar-consultas', 'Permite manejar consultas'),
+('ver-examenes', 'Permite ver datos de los examenes de los pacientes'),
+('manejar-examenes', 'Permite menajr examenes');
 
 -- Usuarios - Roles
 INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
@@ -149,7 +153,11 @@ INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (2, 1),
 (3, 1),
 (3, 2),
-(3, 3);
+(3, 3),
+(3, 4),
+(3, 5),
+(3, 6),
+(3, 7);
 
 -- Preguntas de los cuestionarios
 INSERT INTO preguntas (nombre, tipo, bilateral) VALUES
