@@ -138,7 +138,9 @@ INSERT INTO permisos (nombre, descripcion) VALUES
 ('ver-consultas', 'Permite ver consultas'),
 ('manejar-consultas', 'Permite manejar consultas'),
 ('ver-examenes', 'Permite ver datos de los examenes de los pacientes'),
-('manejar-examenes', 'Permite menajr examenes');
+('manejar-examenes', 'Permite menajr examenes'),
+('ver-pacientes', 'Permite ver datos de los pacientes'),
+('manejar-pacientes', 'Permite manejar pacientes');
 
 -- Usuarios - Roles
 INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
@@ -157,7 +159,9 @@ INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (3, 4),
 (3, 5),
 (3, 6),
-(3, 7);
+(3, 7),
+(3, 8),
+(3, 9);
 
 -- Preguntas de los cuestionarios
 INSERT INTO preguntas (nombre, tipo, bilateral) VALUES
