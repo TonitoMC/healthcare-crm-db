@@ -1,15 +1,24 @@
--- Idempotencia del script, vamos a eliminar todos los registros
+
+-- ============================================================================
+--   HEALTHCARE CRM – DATA INSERTION SCRIPT (with JSON Questionnaires)
+-- ============================================================================
+
+-- Idempotency: clear tables safely
 SET session_replication_role = replica;
 
 TRUNCATE TABLE
-  consultas_preguntas, tratamientos, diagnosticos, examenes, consultas,
-  citas, preguntas_cuestionarios, antecedentes, tutores, logs,
-  roles_permisos, usuarios_roles, pacientes, usuarios,  roles,
-  permisos, horarios_laborales, horarios_especiales, preguntas, cuestionarios
+  tratamientos, diagnosticos, examenes, respuestas_cuestionarios, consultas,
+  citas, antecedentes, tutores, logs,
+  roles_permisos, usuarios_roles, pacientes, usuarios, roles, permisos,
+  horarios_laborales, horarios_especiales, cuestionarios
 RESTART IDENTITY CASCADE;
 
 SET session_replication_role = DEFAULT;
--- Pacientes con número telefónico (Mayores de Edad)
+
+-- ============================================================================
+-- PACIENTES
+-- ============================================================================
+
 INSERT INTO pacientes (nombre, fecha_nacimiento, telefono, sexo) VALUES
 ('Juan Pérez Martínez', '1985-03-15', '5551234567', 'Masculino'),
 ('María González López', '1990-07-22', '5552345678', 'Femenino'),
@@ -22,20 +31,21 @@ INSERT INTO pacientes (nombre, fecha_nacimiento, telefono, sexo) VALUES
 ('Miguel Rodríguez Silva', '1983-04-05', '5559012345', 'Masculino'),
 ('Sofía Castillo Ríos', '1998-08-14', '5550123456', 'Femenino');
 
--- Pacientes sin numero telefonico (Menores de edad), tambien pueden tener pero
--- para simplificar el script vamos a evitar ese campo
 INSERT INTO pacientes (nombre, fecha_nacimiento, sexo) VALUES
 ('Sofía Ramírez Mendoza', '2018-05-12', 'Femenino'),
 ('Diego Morales Castro', '2016-11-03', 'Masculino'),
 ('Valentina Herrera Luna', '2019-02-28', 'Femenino'),
 ('Mateo Navarro Ríos', '2015-07-15', 'Masculino'),
 ('Renata Delgado Fuentes', '2010-09-21', 'Femenino'),
-('Joaquín Paredes León', '2009-04-05', 'Masculino'), 
+('Joaquín Paredes León', '2009-04-05', 'Masculino'),
 ('Lucía Espinoza Vega', '2007-12-10', 'Femenino'),
 ('Elena Mendoza Soto', '2012-08-17', 'Femenino'),
 ('Adrián Rojas Campos', '2006-06-22', 'Masculino');
 
--- Tutores de los pacientes menores de edad
+-- ============================================================================
+-- TUTORES
+-- ============================================================================
+
 INSERT INTO tutores (paciente_id, nombre, telefono, parentesco, es_contacto_principal) VALUES
 (11, 'Mariana Mendoza López', '5551122334', 'Madre', true),
 (11, 'Alejandro Ramírez Pérez', '5551122335', 'Padre', false),
@@ -51,7 +61,10 @@ INSERT INTO tutores (paciente_id, nombre, telefono, parentesco, es_contacto_prin
 (18, 'Carmen Soto Jiménez', '5559900112', 'Madre', true),
 (19, 'Leticia Campos Navarro', '5550011223', 'Madre', true);
 
--- Antecedentes para cada paciente
+-- ============================================================================
+-- ANTECEDENTES
+-- ============================================================================
+
 INSERT INTO antecedentes (paciente_id, medicos, familiares, oculares, alergicos, otros) VALUES
 (1, 'Hipertensión controlada', 'Abuelo con glaucoma', 'Miopía -5.00 OD/OI desde los 20 años', 'Penicilina', 'Fumador ocasional'),
 (2, 'Migrañas frecuentes', 'Madre con degeneración macular', 'Ojo seco moderado', 'Ninguna conocida', 'Usuaria de lentes de contacto'),
@@ -62,132 +75,137 @@ INSERT INTO antecedentes (paciente_id, medicos, familiares, oculares, alergicos,
 (7, 'Hipertensión, apnea del sueño', 'Madre con catarata precoz a los 50', 'Glaucoma sospecha, PIO 22mmHg OD', 'Polen', 'Chofer profesional'),
 (8, 'Artritis reumatoide', 'Abuelo ciego por trauma', 'Uveítis recurrente', 'Antiinflamatorios no esteroideos', 'Vegetariana'),
 (9, 'Depresión controlada', 'Familia sin antecedentes oculares', 'Conjuntivitis alérgica estacional', 'Ninguna conocida', 'Trabaja en minería'),
-(10, 'Ninguno', 'Padre con desprendimiento de retina', 'Miopía magna -10.00 OD/OI', 'Látex', 'Miope patológica'),
-(11, 'Ninguno', 'Hermano con estrabismo', 'Ambliopía OD en tratamiento', 'Huevo', 'En terapia de parche ocular'),
-(12, 'Asma infantil', 'Padre con alta miopía', 'Miopía -3.00 OD/OI', 'Ácaros, polvo', 'Usa lentes desde los 5 años'),
-(13, 'Prematura (32 semanas)', 'Madre con retinopatía del prematuro', 'Estrabismo convergente alternante', 'Ninguna conocida', 'En control por oftalmopediatría'),
-(14, 'Síndrome de Down', 'Sin antecedentes familiares oculares', 'Nistagmo, blefaritis crónica', 'Ninguna conocida', 'Necesidades especiales'),
-(15, 'Ninguno', 'Abuela con glaucoma', 'Miopía -1.50 OD/OI progresiva', 'Ninguna conocida', 'Adolescente con mucho uso de pantallas'),
-(16, 'Diabetes tipo 1', 'Padre con retinopatía diabética', 'Fondo de ojo normal último control', 'Ninguna conocida', 'Deportista, control anual requerido'),
-(17, 'Ninguno', 'Madre con queratocono', 'Topografía corneal normal pero en riesgo', 'Lentes de contacto', 'Adolescente, usa lentes de contacto'),
-(18, 'Parálisis cerebral', 'Sin antecedentes familiares', 'Estrabismo divergente, nistagmo', 'Ninguna conocida', 'Requiere atención multidisciplinaria'),
-(19, 'Alergias estacionales', 'Padre con alta miopía', 'Miopía -2.00 OD/OI estable', 'Polen, gramíneas', 'Buena adherencia al tratamiento');
+(10, 'Ninguno', 'Padre con desprendimiento de retina', 'Miopía magna -10.00 OD/OI', 'Látex', 'Miope patológica');
 
--- Cuestionarios, unicamente vamos a almacenar 2 por  motivos demostrativos
-INSERT INTO cuestionarios(nombre, version, activo) VALUES
-('Consulta', '1.0', false),
-('Consulta', '1.1', true);
+-- ============================================================================
+-- CUESTIONARIOS (JSON SCHEMA)
+-- ============================================================================
 
--- Consultas de pacientes
+INSERT INTO cuestionarios (nombre, version, activo, schema) VALUES
+('Consulta', '1.0', false, '{
+  "title": "Evaluación Ocular Inicial",
+  "sections": [
+    {
+      "title": "Agudeza Visual",
+      "questions": [
+        {"id": "avsl", "label": "AV sin lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 1},
+        {"id": "avcl", "label": "AV con lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 2},
+        {"id": "pio", "label": "Presión Ocular", "type": "float", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 3},
+        {"id": "dolor", "label": "Dolor", "type": "boolean", "bilateral": false, "order": 4}
+      ]
+    }
+  ]
+}'),
+('Consulta', '1.1', true, '{
+  "title": "Evaluación Ocular 2025",
+  "sections": [
+    {
+      "title": "Agudeza Visual y PIO",
+      "questions": [
+        {"id": "avsl", "label": "AV sin lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 1},
+        {"id": "avcl", "label": "AV con lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 2},
+        {"id": "pio", "label": "Presión Ocular", "type": "float", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 3},
+        {"id": "dolor", "label": "Dolor", "type": "boolean", "bilateral": false, "order": 4}
+      ]
+    }
+  ]
+}');
+
+-- ============================================================================
+-- CONSULTAS
+-- ============================================================================
+
 INSERT INTO consultas (paciente_id, motivo, fecha, cuestionario_id) VALUES
-(1, 'Control anual de presión intraocular', '2023-01-15', 1.1),
-(1, 'Aumento de moscas volantes OD', '2023-06-22', 1.1),
-(1, 'Revisión de campo visual', '2024-02-10', 1.1),
-(2, 'Dolor ocular con lentes de contacto', '2023-03-08', 1.1),
-(2, 'Seguimiento de ojo seco', '2023-09-14', 1.1),
-(2, 'Cambio de graduación', '2024-01-05', 1.1),
-(3, 'Fondo de ojo anual (diabetes)', '2023-02-20', 1.1),
-(3, 'Visión borrosa persistente', '2023-11-30', 1.1),
-(4, 'Evaluación de topografía corneal', '2023-04-12', 1.1),
-(4, 'Picor ocular intenso', '2023-08-17', 1.1),
-(5, 'Irritación ocular por exposición solar', '2023-05-25', 1.1),
-(5, 'Crecimiento de pterigión OD', '2024-03-18', 1.1),
-(6, 'Fatiga visual por estudio', '2023-07-07', 1.1),
-(6, 'Control de hipermetropía', '2024-01-22', 1.1),
-(7, 'Dificultad para visión nocturna', '2023-10-11', 1.1),
-(8, 'Ojo rojo recurrente', '2023-12-05', 1.1);
+(1, 'Control anual de presión intraocular', '2023-01-15', 2),
+(1, 'Aumento de moscas volantes OD', '2023-06-22', 2),
+(1, 'Revisión de campo visual', '2024-02-10', 2),
+(2, 'Dolor ocular con lentes de contacto', '2023-03-08', 2),
+(2, 'Seguimiento de ojo seco', '2023-09-14', 2),
+(2, 'Cambio de graduación', '2024-01-05', 2),
+(3, 'Fondo de ojo anual (diabetes)', '2023-02-20', 2),
+(3, 'Visión borrosa persistente', '2023-11-30', 2),
+(4, 'Evaluación de topografía corneal', '2023-04-12', 2),
+(4, 'Picor ocular intenso', '2023-08-17', 2),
+(5, 'Irritación ocular por exposición solar', '2023-05-25', 2),
+(5, 'Crecimiento de pterigión OD', '2024-03-18', 2),
+(6, 'Fatiga visual por estudio', '2023-07-07', 2),
+(6, 'Control de hipermetropía', '2024-01-22', 2),
+(7, 'Dificultad para visión nocturna', '2023-10-11', 2),
+(8, 'Ojo rojo recurrente', '2023-12-05', 2);
 
--- Diagnosticos para cada consulta
+-- ============================================================================
+-- RESPUESTAS_CUESTIONARIOS (JSON RESPUESTAS)
+-- ============================================================================
+
+INSERT INTO respuestas_cuestionarios (consulta_id, cuestionario_id, respuestas) VALUES
+(1, 2, '{
+  "avsl": {"OD": 20, "OI": 20},
+  "avcl": {"OD": 20, "OI": 20},
+  "pio": {"OD": 16.5, "OI": 15.0},
+  "dolor": false
+}'),
+(2, 2, '{
+  "avsl": {"OD": 40, "OI": 20},
+  "avcl": {"OD": 20, "OI": 20},
+  "pio": {"OD": 14.0, "OI": 15.5},
+  "dolor": true
+}'),
+(3, 2, '{
+  "avsl": {"OD": 20, "OI": 20},
+  "avcl": {"OD": 20, "OI": 20},
+  "pio": {"OD": 22.0, "OI": 21.5},
+  "dolor": false
+}');
+
+-- ============================================================================
+-- DIAGNOSTICOS
+-- ============================================================================
+
 INSERT INTO diagnosticos (nombre, consulta_id, recomendacion) VALUES
 ('Hipertensión ocular', 1, 'Control cada 6 meses, medición PIO'),
 ('Desprendimiento vítreo posterior OD', 2, 'Observación, acudir si aumentan moscas volantes o aparecen flashes'),
-('Defecto campimétrico superior', 3, 'Repetir campo visual en 3 meses, considerar OCT fibras nervio óptico'),
-('Úlcera corneal por lentes de contacto', 4, 'Suspender lentes, tratamiento con antibiótico tópico'),
-('Síndrome de ojo seco severo', 5, 'Lágrimas artificiales sin conservantes cada 2 horas, omega-3 oral'),
-('Miopía progresiva -1.50', 6, 'Cambio de lentes, control anual'),
-('Retinopatía diabética no proliferativa', 7, 'Control trimestral, optimizar control glucémico'),
-('Edema macular diabético incipiente', 8, 'Angiografía fluoresceínica, considerar anti-VEGF'),
-('Astigmatismo irregular', 9, 'Topografía serial cada 6 meses, excluir queratocono'),
-('Conjuntivitis alérgica severa', 10, 'Antihistamínicos tópicos, compresas frías'),
-('Queratitis actínica', 11, 'Lubricantes intensivos, gafas de sol UV400'),
-('Pterigión grado II OD', 12, 'Cirugía de escisión con injerto conjuntival'),
-('Asthenopia acomodativa', 13, 'Regla 20-20-20, lentes con filtro azul'),
-('Hipermetropía latente +2.75', 14, 'Lentes correctivos permanentes'),
-('Nictalopia por deficiencia vitamina A', 15, 'Suplementos vitamínicos, revisar dieta'),
-('Uveítis anterior recurrente', 16, 'Corticoides tópicos, dilatación pupilar');
+('Defecto campimétrico superior', 3, 'Repetir campo visual en 3 meses, considerar OCT fibras nervio óptico');
 
+-- ============================================================================
+-- TRATAMIENTOS
+-- ============================================================================
 
-
--- TRATAMIENTOS ASOCIADOS A LOS DIAGNÓSTICOS (nombre comercial)
 INSERT INTO tratamientos (nombre, componente_activo, presentacion, dosificacion, tiempo, frecuencia, diagnostico_id) VALUES
 ('Timoptic', 'Timolol 0.5%', 'Colirio', '1 gota en cada ojo afectado', '6 meses', 'cada 12 horas', 1),
 ('Systane Ultra', 'Lágrimas artificiales sin conservantes', 'Solución oftálmica', '1 gota en OD cada 4 horas', '3 meses', 'cada 4 horas', 1),
-
 ('Seguimiento clínico', 'N/A', 'Consulta de control', 'Revisar en caso de síntomas nuevos', '6 meses', 'sin frecuencia establecida', 2),
+('Humphrey 30-2', 'N/A', 'Evaluación campimétrica', 'Repetir campo visual con técnica estandarizada', '3 meses', 'sin frecuencia establecida', 3);
 
-('Humphrey 30-2', 'N/A', 'Evaluación campimétrica', 'Repetir campo visual con técnica estandarizada', '3 meses', 'sin frecuencia establecida', 3),
+-- ============================================================================
+-- USUARIOS / ROLES / PERMISOS
+-- ============================================================================
 
-('Vigamox', 'Moxifloxacino 0.5%', 'Colirio', '1 gota cada 6 horas en OD', '14 días', 'cada 6 horas', 4),
-('Refresh Tears', 'Carboximetilcelulosa 0.5%', 'Solución oftálmica', '1 gota cada 3 horas', '30 días', 'cada 3 horas', 4),
-
-('Hylo-Comod', 'Hipromelosa 0.3%', 'Solución oftálmica', '1 gota cada 2 horas', '6 meses', 'cada 2 horas', 5),
-('Omega Vision', 'Omega-3', 'Cápsula blanda', '1 cápsula diaria', '6 meses', 'una vez al día', 5),
-
-('Essilor Eyezen', 'Lente CR-39', 'Lentes ópticos', 'Uso permanente', '12 meses', 'uso continuo', 6),
-
-('Glucophage', 'Metformina 850mg', 'Tableta', '1 tableta cada 12 horas con alimentos', '12 meses', 'cada 12 horas', 7),
-('Ocuvite Lutein', 'Luteína + Zeaxantina', 'Cápsula', '1 cápsula diaria', '6 meses', 'una vez al día', 7),
-
-('Avastin', 'Bevacizumab', 'Inyección intravítrea', '1 dosis intravítrea mensual', '3 meses', 'una vez al mes', 8),
-
-('Artelac Rebalance', 'Hialuronato de sodio 0.15%', 'Solución oftálmica', '1 gota cada 4 horas', '3 meses', 'cada 4 horas', 9),
-
-('Pataday', 'Olopatadina 0.1%', 'Colirio', '1 gota cada 8 horas', '14 días', 'cada 8 horas', 10),
-('Compresas Frías Oftálmicas', 'N/A', 'Medida física', 'Aplicar 3 veces al día', '14 días', 'tres veces al día', 10),
-
-('Cellufresh UV', 'Metilcelulosa 0.3%', 'Colirio', '1 gota cada 6 horas', '1 mes', 'cada 6 horas', 11),
-
-('Maxidex', 'Dexametasona 0.1%', 'Colirio', '1 gota cada 6 horas', '21 días', 'cada 6 horas', 12),
-
-('Descanso 20-20-20', 'N/A', 'Higiene visual', 'Cada 20 minutos mirar a 6 metros durante 20 segundos', '6 meses', 'diario', 13),
-
-('Crizal Prevencia', 'Lente CR-39', 'Lentes ópticos', 'Uso diario permanente', '12 meses', 'uso continuo', 14),
-
-('Retinol Forte', 'Retinol 10,000 UI', 'Cápsula', '1 cápsula diaria', '3 meses', 'una vez al día', 15),
-
-('Pred Forte', 'Prednisolona 1%', 'Colirio', '1 gota cada 6 horas en ojo afectado', '21 días', 'cada 6 horas', 16),
-('Mydriacyl', 'Tropicamida 1%', 'Colirio', '1 gota cada 12 horas', '7 días', 'cada 12 horas', 16);
--- Usuarios del programa
 INSERT INTO usuarios (username, password_hash, correo) VALUES
 ('pcastejon', '1234', 'pcastejon@gmail.com'),
 ('jmerida', '1234', 'jmerida@gmail.com'),
 ('jlopez', '1234', 'jlopez@gmail.com');
 
--- Roles - NO TOCAR EL ORDEN POR FAVOR O TRUENAN COSAS DEL BACKEND
 INSERT INTO roles (nombre, descripcion) VALUES
 ('medico', 'Rol de medico: Tiene todos los permisos de manejo del programa'),
 ('secretario', 'Rol de secretario: Tiene los permisos que el medico designe'),
 ('admin', 'Superusuario del sistema: Tiene todos los permisos por defecto');
 
--- Permisos
 INSERT INTO permisos (nombre, descripcion) VALUES
-('ver-horarios', 'Permite visualizar los horarios laborales, al igual que horarios especiales por fecha'),
+('ver-horarios', 'Permite visualizar los horarios laborales'),
 ('editar-horarios', 'Permite modificar los horarios laborales o especiales'),
 ('manejar-usuarios', 'Permite registrar y manejar usuarios dentro del sistema'),
 ('ver-consultas', 'Permite ver consultas'),
 ('manejar-consultas', 'Permite manejar consultas'),
-('ver-examenes', 'Permite ver datos de los examenes de los pacientes'),
-('manejar-examenes', 'Permite menajr examenes'),
-('ver-pacientes', 'Permite ver datos de los pacientes'),
+('ver-examenes', 'Permite ver examenes'),
+('manejar-examenes', 'Permite manejar examenes'),
+('ver-pacientes', 'Permite ver datos de pacientes'),
 ('manejar-pacientes', 'Permite manejar pacientes');
 
--- Usuarios - Roles
 INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
 (1, 1),
 (2, 3),
 (3, 2);
 
--- Roles - permisos
 INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (1, 2),
 (1, 3),
@@ -202,161 +220,52 @@ INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (3, 8),
 (3, 9);
 
--- Preguntas de los cuestionarios
-INSERT INTO preguntas (nombre, tipo, bilateral) VALUES
-('AV sin lentes', 'entero', true),
-('AV con lentes', 'entero', true),
-('Presion Ocular', 'float', true),
-('Dolor', 'bool', false);
+-- ============================================================================
+-- CITAS
+-- ============================================================================
 
--- Tabla de cruce para preguntas y cuestionarios
-INSERT INTO preguntas_cuestionarios (cuestionario_id, pregunta_id, orden) VALUES
-(1, 1, 1),
-(1, 2, 2),
-(1, 3, 3),
-(2, 1, 1),
-(2, 2, 2),
-(2, 3, 3),
-(2, 4, 4);
-
--- Respuestas para consultas_preguntas (versión simplificada)
-INSERT INTO consultas_preguntas (consulta_id, pregunta_id, valores_enteros, valor_booleano, comentario) VALUES
-(1, 1, ARRAY[20, 20], NULL, 'AV normal'),
-(1, 2, ARRAY[20, 20], NULL, NULL),
-(1, 3, ARRAY[16.5, 15.0], NULL, 'PIO normal'),
-(1, 4, NULL, false, 'Sin dolor'),
-(2, 1, ARRAY[40, 20], NULL, 'OD disminuida'),
-(2, 2, ARRAY[20, 20], NULL, NULL),
-(2, 3, ARRAY[14.0, 15.5], NULL, NULL),
-(2, 4, NULL, true, 'Molestias OD'),
-(3, 1, ARRAY[20, 20], NULL, NULL),
-(3, 2, ARRAY[20, 20], NULL, NULL),
-(3, 3, ARRAY[22.0, 21.5], NULL, 'PIO elevada'),
-(3, 4, NULL, false, NULL),
-(4, 1, ARRAY[30, 25], NULL, NULL),
-(4, 2, ARRAY[20, 20], NULL, NULL),
-(4, 3, ARRAY[12.0, 13.0], NULL, NULL),
-(4, 4, NULL, true, 'OD irritado'),
-(5, 1, ARRAY[20, 20], NULL, NULL),
-(5, 2, ARRAY[20, 20], NULL, NULL),
-(5, 3, ARRAY[14.0, 14.5], NULL, NULL),
-(5, 4, NULL, true, 'Ojo seco'),
-(6, 1, ARRAY[50, 40], NULL, 'AV disminuida'),
-(6, 2, ARRAY[20, 20], NULL, NULL),
-(6, 3, ARRAY[15.0, 16.0], NULL, NULL),
-(6, 4, NULL, false, NULL),
-(7, 1, ARRAY[25, 25], NULL, NULL),
-(7, 2, ARRAY[20, 20], NULL, NULL),
-(7, 3, ARRAY[19.0, 18.5], NULL, NULL),
-(7, 4, NULL, false, NULL),
-(8, 1, ARRAY[60, 60], NULL, 'AV muy baja'),
-(8, 2, ARRAY[40, 40], NULL, NULL),
-(8, 3, ARRAY[21.0, 22.0], NULL, 'PIO elevada'),
-(8, 4, NULL, true, 'Queja principal'),
-(9, 1, ARRAY[20, 20], NULL, NULL),
-(9, 2, ARRAY[20, 20], NULL, NULL),
-(9, 3, ARRAY[10.5, 11.0], NULL, 'PIO baja'),
-(9, 4, NULL, false, NULL),
-(10, 1, ARRAY[20, 20], NULL, NULL),
-(10, 2, ARRAY[20, 20], NULL, NULL),
-(10, 3, ARRAY[14.0, 14.0], NULL, NULL),
-(10, 4, NULL, true, 'Alérgico'),
-(11, 1, ARRAY[30, 30], NULL, NULL),
-(11, 2, ARRAY[20, 20], NULL, NULL),
-(11, 3, ARRAY[13.0, 13.0], NULL, NULL),
-(11, 4, NULL, true, 'Queratitis'),
-(12, 1, ARRAY[25, 20], NULL, 'OD afectado'),
-(12, 2, ARRAY[20, 20], NULL, NULL),
-(12, 3, ARRAY[14.0, 14.0], NULL, NULL),
-(12, 4, NULL, true, 'Pterigión'),
-(13, 1, ARRAY[40, 40], NULL, NULL),
-(13, 2, ARRAY[20, 20], NULL, NULL),
-(13, 3, ARRAY[15.0, 15.0], NULL, NULL),
-(13, 4, NULL, true, 'Asthenopia'),
-(14, 1, ARRAY[70, 70], NULL, 'AV muy baja'),
-(14, 2, ARRAY[20, 20], NULL, 'Mejora con lentes'),
-(14, 3, ARRAY[16.0, 16.0], NULL, NULL),
-(14, 4, NULL, false, NULL),
-(15, 1, ARRAY[80, 80], NULL, 'Mala visión'),
-(15, 2, ARRAY[30, 30], NULL, NULL),
-(15, 3, ARRAY[12.0, 12.0], NULL, NULL),
-(15, 4, NULL, false, 'Nictalopia'),
-(16, 1, ARRAY[20, 20], NULL, NULL),
-(16, 2, ARRAY[20, 20], NULL, NULL),
-(16, 3, ARRAY[24.0, 24.0], NULL, 'PIO elevada'),
-(16, 4, NULL, true, 'Uveítis');
-
-INSERT INTO citas (paciente_id, nombre, fecha, duracion)
-VALUES
-(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-05-16 09:00:00-06', 1200), -- 1200 seconds
-(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-05-22 14:30:00-06', 1200),
-(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-05-09 10:15:00-06', 1200),
+INSERT INTO citas (paciente_id, nombre, fecha, duracion) VALUES
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-05-16 09:00:00-06', 1200),
 (2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-05-08 15:45:00-06', 1200),
-(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-05-14 11:00:00-06', 1200),
-(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-05-05 08:30:00-06', 1200),
-(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-05-20 16:00:00-06', 1200),
-(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-05-30 09:30:00-06', 1200),
-(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-05-12 14:00:00-06', 1200),
-(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-05-17 10:45:00-06', 1200),
-(5, (SELECT nombre FROM pacientes WHERE id = 5), '2025-05-25 17:00:00-06', 1200),
-(5, (SELECT nombre FROM pacientes WHERE id = 5), '2025-05-18 08:15:00-06', 1200),
-(6, (SELECT nombre FROM pacientes WHERE id = 6), '2025-05-07 15:00:00-06', 1200),
-(6, (SELECT nombre FROM pacientes WHERE id = 6), '2025-05-22 11:30:00-06', 1200),
-(7, (SELECT nombre FROM pacientes WHERE id = 7), '2025-05-11 16:45:00-06', 1200),
-(8, (SELECT nombre FROM pacientes WHERE id = 8), '2025-05-05 09:00:00-06', 1200);
-
-
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-05-20 16:00:00-06', 1200);
 
 -- ============================================================================
--- HORARIOS LABORALES (Recurrencia semanal)
+-- HORARIOS
 -- ============================================================================
+
 INSERT INTO horarios_laborales (dia_semana, hora_apertura, hora_cierre, abierto) VALUES
--- Lunes a Viernes (mañana)
-(1, '09:00:00', '13:00:00', TRUE),  -- Lunes
-(2, '09:00:00', '13:00:00', TRUE),  -- Martes
-(3, '09:00:00', '13:00:00', TRUE),  -- Miércoles
-(4, '09:00:00', '13:00:00', TRUE),  -- Jueves
-(5, '09:00:00', '13:00:00', TRUE),  -- Viernes
+(1, '09:00:00', '13:00:00', TRUE),
+(2, '09:00:00', '13:00:00', TRUE),
+(3, '09:00:00', '13:00:00', TRUE),
+(4, '09:00:00', '13:00:00', TRUE),
+(5, '09:00:00', '13:00:00', TRUE),
+(1, '15:00:00', '18:00:00', TRUE),
+(2, '15:00:00', '18:00:00', TRUE),
+(3, '15:00:00', '18:00:00', TRUE),
+(4, '15:00:00', '18:00:00', TRUE),
+(5, '15:00:00', '18:00:00', TRUE),
+(6, '09:00:00', '13:00:00', TRUE),
+(7, NULL, NULL, FALSE);
 
--- Lunes a Viernes (tarde)
-(1, '15:00:00', '18:00:00', TRUE),  -- Lunes
-(2, '15:00:00', '18:00:00', TRUE),  -- Martes
-(3, '15:00:00', '18:00:00', TRUE),  -- Miércoles
-(4, '15:00:00', '18:00:00', TRUE),  -- Jueves
-(5, '15:00:00', '18:00:00', TRUE),  -- Viernes
-
--- Sábado (solo mañana)
-(6, '09:00:00', '13:00:00', TRUE),  -- Sábado
-
--- Domingo (cerrado)
-(7, NULL, NULL, FALSE);             -- Domingo cerrado
-
-
--- ============================================================================
--- HORARIOS ESPECIALES (Overrides de días específicos)
--- ============================================================================
 INSERT INTO horarios_especiales (fecha, hora_apertura, hora_cierre, abierto) VALUES
-('2025-11-04', '09:00:00', '12:00:00', TRUE),  -- shortened day
-('2025-11-05', NULL, NULL, FALSE),             -- closed (holiday)
-('2025-11-06', '12:00:00', '13:00:00', TRUE),  -- late start
-('2025-11-06', '15:00:00', '19:00:00', TRUE),  -- late start
-('2025-11-08', '10:00:00', '14:00:00', TRUE),  -- Saturday adjusted hours
-('2025-11-09', NULL, NULL, FALSE);             -- Sunday special closure
+('2025-11-04', '09:00:00', '12:00:00', TRUE),
+('2025-11-05', NULL, NULL, FALSE),
+('2025-11-06', '12:00:00', '13:00:00', TRUE),
+('2025-11-06', '15:00:00', '19:00:00', TRUE),
+('2025-11-08', '10:00:00', '14:00:00', TRUE),
+('2025-11-09', NULL, NULL, FALSE);
 
+-- ============================================================================
+-- EXÁMENES
+-- ============================================================================
 
 INSERT INTO examenes (paciente_id, consulta_id, tipo, fecha, s3_key, file_size, mime_type) VALUES
 (1, 1, 'Tonometría de aire', '2023-01-15', 'examenes/1/20230115_tonometria_aire.pdf', 892640, 'application/pdf'),
 (1, 3, 'Campo visual 30-2', '2024-02-10', 'examenes/1/20240210_campo_visual_30_2.pdf', 2458720, 'application/pdf'),
 (2, 4, 'Topografía corneal', '2023-03-08', 'examenes/2/20230308_topografia_corneal.pdf', 1572864, 'application/pdf'),
-(2, 5, 'Test de Schirmer', '2023-09-14', 'examenes/2/20230914_test_schirmer.pdf', 651240, 'application/pdf'),
-(3, 7, 'Retinografía', '2023-02-20', 'examenes/3/20230220_retinografia.pdf', 1245184, 'application/pdf'),
-(3, 8, 'OCT macular', '2023-11-30', 'examenes/3/20231130_oct_macular.pdf', 3145728, 'application/pdf'),
-(4, 9, 'Topografía corneal Pentacam', '2023-04-12', 'examenes/4/20230412_pentacam.pdf', 1945728, 'application/pdf'),
-(5, 12, 'Biomicroscopía anterior', '2024-03-18', 'examenes/5/20240318_biomicroscopia_anterior.pdf', 2097152, 'application/pdf'),
-(6, 14, 'Retinoscopía', '2024-01-22', 'examenes/6/20240122_retinoscopia.pdf', 1048576, 'application/pdf'),
-(7, 15, 'Adaptometría', '2023-10-11', 'examenes/7/20231011_adaptometria.pdf', 756240, 'application/pdf');
+(3, 7, 'Retinografía', '2023-02-20', 'examenes/3/20230220_retinografia.pdf', 1245184, 'application/pdf');
 
-INSERT INTO examenes (paciente_id, consulta_id, tipo, fecha, s3_key, file_size, mime_type) VALUES
-(1, NULL, 'Paquimetría', '2025-10-20', NULL, NULL, NULL), -- Patient 1, scheduled for Oct 2024
-(2, NULL, 'Refracción ciclopléjica', '2025-01-05', NULL, NULL, NULL), -- Patient 2, scheduled for Jan 2025
-(3, NULL, 'Curva de tensión ocular', '2025-07-01', NULL, NULL, NULL); -- Patient 3, scheduled for July 2024
+INSERT INTO examenes (paciente_id, tipo, fecha) VALUES
+(1, 'Paquimetría', '2025-10-20'),
+(2, 'Refracción ciclopléjica', '2025-01-05'),
+(3, 'Curva de tensión ocular', '2025-07-01');
