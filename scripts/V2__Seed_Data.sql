@@ -118,6 +118,45 @@ INSERT INTO diagnosticos (nombre, consulta_id, recomendacion) VALUES
 
 
 
+-- TRATAMIENTOS ASOCIADOS A LOS DIAGNÓSTICOS (nombre comercial)
+INSERT INTO tratamientos (nombre, componente_activo, presentacion, dosificacion, tiempo, frecuencia, diagnostico_id) VALUES
+('Timoptic', 'Timolol 0.5%', 'Colirio', '1 gota en cada ojo afectado', '6 meses', 'cada 12 horas', 1),
+('Systane Ultra', 'Lágrimas artificiales sin conservantes', 'Solución oftálmica', '1 gota en OD cada 4 horas', '3 meses', 'cada 4 horas', 1),
+
+('Seguimiento clínico', 'N/A', 'Consulta de control', 'Revisar en caso de síntomas nuevos', '6 meses', 'sin frecuencia establecida', 2),
+
+('Humphrey 30-2', 'N/A', 'Evaluación campimétrica', 'Repetir campo visual con técnica estandarizada', '3 meses', 'sin frecuencia establecida', 3),
+
+('Vigamox', 'Moxifloxacino 0.5%', 'Colirio', '1 gota cada 6 horas en OD', '14 días', 'cada 6 horas', 4),
+('Refresh Tears', 'Carboximetilcelulosa 0.5%', 'Solución oftálmica', '1 gota cada 3 horas', '30 días', 'cada 3 horas', 4),
+
+('Hylo-Comod', 'Hipromelosa 0.3%', 'Solución oftálmica', '1 gota cada 2 horas', '6 meses', 'cada 2 horas', 5),
+('Omega Vision', 'Omega-3', 'Cápsula blanda', '1 cápsula diaria', '6 meses', 'una vez al día', 5),
+
+('Essilor Eyezen', 'Lente CR-39', 'Lentes ópticos', 'Uso permanente', '12 meses', 'uso continuo', 6),
+
+('Glucophage', 'Metformina 850mg', 'Tableta', '1 tableta cada 12 horas con alimentos', '12 meses', 'cada 12 horas', 7),
+('Ocuvite Lutein', 'Luteína + Zeaxantina', 'Cápsula', '1 cápsula diaria', '6 meses', 'una vez al día', 7),
+
+('Avastin', 'Bevacizumab', 'Inyección intravítrea', '1 dosis intravítrea mensual', '3 meses', 'una vez al mes', 8),
+
+('Artelac Rebalance', 'Hialuronato de sodio 0.15%', 'Solución oftálmica', '1 gota cada 4 horas', '3 meses', 'cada 4 horas', 9),
+
+('Pataday', 'Olopatadina 0.1%', 'Colirio', '1 gota cada 8 horas', '14 días', 'cada 8 horas', 10),
+('Compresas Frías Oftálmicas', 'N/A', 'Medida física', 'Aplicar 3 veces al día', '14 días', 'tres veces al día', 10),
+
+('Cellufresh UV', 'Metilcelulosa 0.3%', 'Colirio', '1 gota cada 6 horas', '1 mes', 'cada 6 horas', 11),
+
+('Maxidex', 'Dexametasona 0.1%', 'Colirio', '1 gota cada 6 horas', '21 días', 'cada 6 horas', 12),
+
+('Descanso 20-20-20', 'N/A', 'Higiene visual', 'Cada 20 minutos mirar a 6 metros durante 20 segundos', '6 meses', 'diario', 13),
+
+('Crizal Prevencia', 'Lente CR-39', 'Lentes ópticos', 'Uso diario permanente', '12 meses', 'uso continuo', 14),
+
+('Retinol Forte', 'Retinol 10,000 UI', 'Cápsula', '1 cápsula diaria', '3 meses', 'una vez al día', 15),
+
+('Pred Forte', 'Prednisolona 1%', 'Colirio', '1 gota cada 6 horas en ojo afectado', '21 días', 'cada 6 horas', 16),
+('Mydriacyl', 'Tropicamida 1%', 'Colirio', '1 gota cada 12 horas', '7 días', 'cada 12 horas', 16);
 -- Usuarios del programa
 INSERT INTO usuarios (username, password_hash, correo) VALUES
 ('pcastejon', '1234', 'pcastejon@gmail.com'),

@@ -38,6 +38,7 @@ CREATE TABLE cuestionarios (
     nombre VARCHAR NOT NULL,
     version VARCHAR NOT NULL,
     activo BOOLEAN NOT NULL DEFAULT FALSE,
+    schema JSONB NOT NULL,  -- holds the full definition of questions & metadata
     CONSTRAINT unique_nombre_version UNIQUE (nombre, version)
 );
 
@@ -45,20 +46,18 @@ CREATE UNIQUE INDEX idx_cuestionario_unico_activo
 ON cuestionarios (nombre)
 WHERE (activo = true);
 
-CREATE TABLE preguntas (
-    id SERIAL PRIMARY KEY,
-    nombre VARCHAR NOT NULL,
-    tipo VARCHAR NOT NULL,
-    bilateral BOOLEAN NOT NULL,
-    CONSTRAINT unique_name_type UNIQUE (nombre, tipo)
-);
+ALTER TABLE cuestionarios
+ADD CONSTRAINT check_schema_object CHECK (jsonb_typeof(schema) = 'object');
 
-CREATE TABLE preguntas_cuestionarios (
+CREATE TABLE respuestas_cuestionarios (
     id SERIAL PRIMARY KEY,
-    cuestionario_id INTEGER NOT NULL REFERENCES cuestionarios(id),
-    pregunta_id INTEGER NOT NULL REFERENCES preguntas(id),
-    orden INTEGER NOT NULL,
-    CONSTRAINT unique_cuestionario_pregunta UNIQUE (cuestionario_id, pregunta_id)
+    paciente_id INTEGER REFERENCES pacientes(id),
+    cuestionario_id INTEGER REFERENCES cuestionarios(id),
+    consulta_id INTEGER REFERENCES consultas(id),
+    respuestas JSONB NOT NULL,
+    fecha TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT uq_cuestionario_consulta UNIQUE (consulta_id, cuestionario_id),
+    CONSTRAINT check_respuestas_object CHECK (jsonb_typeof(respuestas) = 'object')
 );
 
 CREATE TABLE consultas (
@@ -70,23 +69,6 @@ CREATE TABLE consultas (
     completada BOOL NOT NULL DEFAULT FALSE
 );
 
-CREATE TABLE consultas_preguntas (
-    id SERIAL PRIMARY KEY,
-    consulta_id INTEGER NOT NULL REFERENCES consultas(id),
-    pregunta_id INTEGER NOT NULL REFERENCES preguntas(id),
-    valor_texto VARCHAR,
-    valor_entero INTEGER,
-    valor_booleano BOOLEAN,
-    comentario VARCHAR(150),
-    valores_textos VARCHAR[],
-    valores_enteros INTEGER[],
-    valores_booleanos BOOLEAN[],
-    CONSTRAINT unique_consulta_pregunta UNIQUE (consulta_id, pregunta_id),
-    CONSTRAINT check_textos_max2 CHECK (array_length(valores_textos, 1) IS NULL OR array_length(valores_textos, 1) <= 2),
-    CONSTRAINT check_enteros_max2 CHECK (array_length(valores_enteros, 1) IS NULL OR array_length(valores_enteros, 1) <= 2),
-    CONSTRAINT check_booleanos_max2 CHECK (array_length(valores_booleanos, 1) IS NULL OR array_length(valores_booleanos, 1) <= 2)
-);
-
 CREATE TABLE diagnosticos (
     id SERIAL PRIMARY KEY,
     recomendacion VARCHAR,
@@ -96,11 +78,12 @@ CREATE TABLE diagnosticos (
 
 CREATE TABLE tratamientos (
     id SERIAL PRIMARY KEY,
+    nombre VARCHAR NOT NULL,
     componente_activo VARCHAR NOT NULL,
     presentacion VARCHAR NOT NULL,
     dosificacion TEXT NOT NULL,
-    tiempo INTERVAL NOT NULL,
-    frecuencia INTERVAL NOT NULL,
+    tiempo VARCHAR NOT NULL,
+    frecuencia VARCHAR NOT NULL,
     diagnostico_id INTEGER NOT NULL REFERENCES diagnosticos(id)
 );
 
