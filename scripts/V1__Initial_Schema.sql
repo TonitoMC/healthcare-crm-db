@@ -49,6 +49,16 @@ WHERE (activo = true);
 ALTER TABLE cuestionarios
 ADD CONSTRAINT check_schema_object CHECK (jsonb_typeof(schema) = 'object');
 
+
+CREATE TABLE consultas (
+    id SERIAL PRIMARY KEY,
+    paciente_id INTEGER NOT NULL REFERENCES pacientes(id),
+    motivo VARCHAR NOT NULL DEFAULT 'Consulta General',
+    cuestionario_id INTEGER REFERENCES cuestionarios(id),
+    fecha DATE NOT NULL DEFAULT CURRENT_DATE,
+    completada BOOL NOT NULL DEFAULT FALSE
+);
+
 CREATE TABLE respuestas_cuestionarios (
     id SERIAL PRIMARY KEY,
     paciente_id INTEGER REFERENCES pacientes(id),
@@ -58,15 +68,6 @@ CREATE TABLE respuestas_cuestionarios (
     fecha TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uq_cuestionario_consulta UNIQUE (consulta_id, cuestionario_id),
     CONSTRAINT check_respuestas_object CHECK (jsonb_typeof(respuestas) = 'object')
-);
-
-CREATE TABLE consultas (
-    id SERIAL PRIMARY KEY,
-    paciente_id INTEGER NOT NULL REFERENCES pacientes(id),
-    motivo VARCHAR NOT NULL DEFAULT 'Consulta General',
-    cuestionario_id INTEGER REFERENCES cuestionarios(id),
-    fecha DATE NOT NULL DEFAULT CURRENT_DATE,
-    completada BOOL NOT NULL DEFAULT FALSE
 );
 
 CREATE TABLE diagnosticos (
