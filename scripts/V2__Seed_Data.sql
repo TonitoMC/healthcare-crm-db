@@ -117,40 +117,40 @@ INSERT INTO cuestionarios (nombre, version, activo, schema) VALUES
 -- ============================================================================
 
 INSERT INTO consultas (paciente_id, motivo, fecha, cuestionario_id) VALUES
-(1, 'Control anual de presión intraocular', '2023-01-15', 2),
-(1, 'Aumento de moscas volantes OD', '2023-06-22', 2),
-(1, 'Revisión de campo visual', '2024-02-10', 2),
-(2, 'Dolor ocular con lentes de contacto', '2023-03-08', 2),
-(2, 'Seguimiento de ojo seco', '2023-09-14', 2),
-(2, 'Cambio de graduación', '2024-01-05', 2),
-(3, 'Fondo de ojo anual (diabetes)', '2023-02-20', 2),
-(3, 'Visión borrosa persistente', '2023-11-30', 2),
-(4, 'Evaluación de topografía corneal', '2023-04-12', 2),
-(4, 'Picor ocular intenso', '2023-08-17', 2),
-(5, 'Irritación ocular por exposición solar', '2023-05-25', 2),
-(5, 'Crecimiento de pterigión OD', '2024-03-18', 2),
-(6, 'Fatiga visual por estudio', '2023-07-07', 2),
-(6, 'Control de hipermetropía', '2024-01-22', 2),
-(7, 'Dificultad para visión nocturna', '2023-10-11', 2),
-(8, 'Ojo rojo recurrente', '2023-12-05', 2);
+(1, 'Control anual de presión intraocular', '2023-01-15', 1),
+(1, 'Aumento de moscas volantes OD', '2023-06-22', 1),
+(1, 'Revisión de campo visual', '2024-02-10', 1),
+(2, 'Dolor ocular con lentes de contacto', '2023-03-08', 1),
+(2, 'Seguimiento de ojo seco', '2023-09-14', 1),
+(2, 'Cambio de graduación', '2024-01-05', 1),
+(3, 'Fondo de ojo anual (diabetes)', '2023-02-20', 1),
+(3, 'Visión borrosa persistente', '2023-11-30', 1),
+(4, 'Evaluación de topografía corneal', '2023-04-12', 1),
+(4, 'Picor ocular intenso', '2023-08-17', 1),
+(5, 'Irritación ocular por exposición solar', '2023-05-25', 1),
+(5, 'Crecimiento de pterigión OD', '2024-03-18', 1),
+(6, 'Fatiga visual por estudio', '2023-07-07', 1),
+(6, 'Control de hipermetropía', '2024-01-22', 1),
+(7, 'Dificultad para visión nocturna', '2023-10-11', 1),
+(8, 'Ojo rojo recurrente', '2023-12-05', 1);
 
 -- ============================================================================
 -- RESPUESTAS_CUESTIONARIOS (JSON RESPUESTAS)
 -- ============================================================================
 INSERT INTO respuestas_cuestionarios (consulta_id, cuestionario_id, respuestas) VALUES
-(1, 2, '{
+(1, 1, '{
   "Agudeza Visual sin lentes": {"value": {"OD": 20, "OI": 20}, "comment": "Sin observaciones"},
   "Agudeza Visual con lentes": {"value": {"OD": 20, "OI": 20}, "comment": "Buena respuesta"},
   "Presión Intraocular": {"value": {"OD": 16.5, "OI": 15.0}, "comment": "Normal"},
   "Dolor": {"value": false, "comment": "Sin dolor"}
 }'),
-(2, 2, '{
+(2, 1, '{
   "Agudeza Visual sin lentes": {"value": {"OD": 40, "OI": 20}, "comment": "Desbalance OD"},
   "Agudeza Visual con lentes": {"value": {"OD": 20, "OI": 20}, "comment": "Corrige adecuadamente"},
   "Presión Intraocular": {"value": {"OD": 14.0, "OI": 15.5}, "comment": "Presión baja"},
   "Dolor": {"value": true, "comment": "Molestia leve"}
 }'),
-(3, 2, '{
+(3, 1, '{
   "Agudeza Visual sin lentes": {"value": {"OD": 20, "OI": 20}, "comment": ""},
   "Agudeza Visual con lentes": {"value": {"OD": 20, "OI": 20}, "comment": ""},
   "Presión Intraocular": {"value": {"OD": 22.0, "OI": 21.5}, "comment": "Ligeramente elevada"},
