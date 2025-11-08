@@ -82,31 +82,32 @@ INSERT INTO antecedentes (paciente_id, medicos, familiares, oculares, alergicos,
 -- ============================================================================
 
 INSERT INTO cuestionarios (nombre, version, activo, schema) VALUES
-('Consulta', '1.0', false, '{
-  "title": "Evaluación Ocular Inicial",
-  "sections": [
-    {
-      "title": "Agudeza Visual",
-      "questions": [
-        {"id": "avsl", "label": "AV sin lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 1},
-        {"id": "avcl", "label": "AV con lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 2},
-        {"id": "pio", "label": "Presión Ocular", "type": "float", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 3},
-        {"id": "dolor", "label": "Dolor", "type": "boolean", "bilateral": false, "order": 4}
-      ]
-    }
-  ]
-}'),
 ('Consulta', '1.1', true, '{
   "title": "Evaluación Ocular 2025",
-  "sections": [
+  "questions": [
     {
-      "title": "Agudeza Visual y PIO",
-      "questions": [
-        {"id": "avsl", "label": "AV sin lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 1},
-        {"id": "avcl", "label": "AV con lentes", "type": "integer", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 2},
-        {"id": "pio", "label": "Presión Ocular", "type": "float", "bilateral": true, "sides": ["OD","OI"], "required": true, "order": 3},
-        {"id": "dolor", "label": "Dolor", "type": "boolean", "bilateral": false, "order": 4}
-      ]
+      "label": "Agudeza Visual sin lentes",
+      "type": "bilateral",
+      "data_type": "int",
+      "order": 1
+    },
+    {
+      "label": "Agudeza Visual con lentes",
+      "type": "bilateral",
+      "data_type": "int",
+      "order": 2
+    },
+    {
+      "label": "Presión Intraocular",
+      "type": "bilateral",
+      "data_type": "float",
+      "order": 3
+    },
+    {
+      "label": "Dolor",
+      "type": "unilateral",
+      "data_type": "bool",
+      "order": 4
     }
   ]
 }');
@@ -136,25 +137,24 @@ INSERT INTO consultas (paciente_id, motivo, fecha, cuestionario_id) VALUES
 -- ============================================================================
 -- RESPUESTAS_CUESTIONARIOS (JSON RESPUESTAS)
 -- ============================================================================
-
 INSERT INTO respuestas_cuestionarios (consulta_id, cuestionario_id, respuestas) VALUES
 (1, 2, '{
-  "avsl": {"OD": 20, "OI": 20},
-  "avcl": {"OD": 20, "OI": 20},
-  "pio": {"OD": 16.5, "OI": 15.0},
-  "dolor": false
+  "Agudeza Visual sin lentes": {"value": {"OD": 20, "OI": 20}, "comment": "Sin observaciones"},
+  "Agudeza Visual con lentes": {"value": {"OD": 20, "OI": 20}, "comment": "Buena respuesta"},
+  "Presión Intraocular": {"value": {"OD": 16.5, "OI": 15.0}, "comment": "Normal"},
+  "Dolor": {"value": false, "comment": "Sin dolor"}
 }'),
 (2, 2, '{
-  "avsl": {"OD": 40, "OI": 20},
-  "avcl": {"OD": 20, "OI": 20},
-  "pio": {"OD": 14.0, "OI": 15.5},
-  "dolor": true
+  "Agudeza Visual sin lentes": {"value": {"OD": 40, "OI": 20}, "comment": "Desbalance OD"},
+  "Agudeza Visual con lentes": {"value": {"OD": 20, "OI": 20}, "comment": "Corrige adecuadamente"},
+  "Presión Intraocular": {"value": {"OD": 14.0, "OI": 15.5}, "comment": "Presión baja"},
+  "Dolor": {"value": true, "comment": "Molestia leve"}
 }'),
 (3, 2, '{
-  "avsl": {"OD": 20, "OI": 20},
-  "avcl": {"OD": 20, "OI": 20},
-  "pio": {"OD": 22.0, "OI": 21.5},
-  "dolor": false
+  "Agudeza Visual sin lentes": {"value": {"OD": 20, "OI": 20}, "comment": ""},
+  "Agudeza Visual con lentes": {"value": {"OD": 20, "OI": 20}, "comment": ""},
+  "Presión Intraocular": {"value": {"OD": 22.0, "OI": 21.5}, "comment": "Ligeramente elevada"},
+  "Dolor": {"value": false, "comment": "Asintomático"}
 }');
 
 -- ============================================================================
@@ -199,7 +199,9 @@ INSERT INTO permisos (nombre, descripcion) VALUES
 ('ver-examenes', 'Permite ver examenes'),
 ('manejar-examenes', 'Permite manejar examenes'),
 ('ver-pacientes', 'Permite ver datos de pacientes'),
-('manejar-pacientes', 'Permite manejar pacientes');
+('manejar-pacientes', 'Permite manejar pacientes'),
+('ver-cuestionarios', 'Permite ver cuestionarios'),
+('manejar-cuestionarios', 'Permite manejar cuestionarios');
 
 INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
 (1, 1),
@@ -218,7 +220,9 @@ INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (3, 6),
 (3, 7),
 (3, 8),
-(3, 9);
+(3, 9),
+(3, 10),
+(3, 11);
 
 -- ============================================================================
 -- CITAS
