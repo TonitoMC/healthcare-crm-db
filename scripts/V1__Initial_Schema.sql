@@ -202,7 +202,7 @@ CREATE TABLE recordatorios (
     id SERIAL PRIMARY KEY,
     usuario_id INTEGER REFERENCES usuarios(id) ON DELETE SET NULL,
     descripcion VARCHAR NOT NULL,
-    es_global BOOLEAN NOT NULL DEFAULT FALSE,
+    global BOOLEAN NOT NULL DEFAULT FALSE,
     fecha_creacion TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     fecha_completado TIMESTAMPTZ
 );
