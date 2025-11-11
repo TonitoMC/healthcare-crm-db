@@ -232,10 +232,126 @@ INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 -- CITAS
 -- ============================================================================
 
+
 INSERT INTO citas (paciente_id, nombre, fecha, duracion) VALUES
-(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-05-16 09:00:00-06', 1200),
-(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-05-08 15:45:00-06', 1200),
-(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-05-20 16:00:00-06', 1200);
+(5, (SELECT nombre FROM pacientes WHERE id = 5), '2025-11-10 09:00:00-06', 1200),
+(6, (SELECT nombre FROM pacientes WHERE id = 6), '2025-11-10 09:20:00-06', 1200),
+(7, (SELECT nombre FROM pacientes WHERE id = 7), '2025-11-10 09:40:00-06', 1200),
+(8, (SELECT nombre FROM pacientes WHERE id = 8), '2025-11-10 10:00:00-06', 1200),
+
+(5, (SELECT nombre FROM pacientes WHERE id = 5), '2025-11-10 15:00:00-06', 1200),
+(6, (SELECT nombre FROM pacientes WHERE id = 6), '2025-11-10 15:20:00-06', 1200),
+(7, (SELECT nombre FROM pacientes WHERE id = 7), '2025-11-10 15:40:00-06', 1200),
+(8, (SELECT nombre FROM pacientes WHERE id = 8), '2025-11-10 16:00:00-06', 1200),
+-- 📅 Tue, Nov 11 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-11 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-11 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-11 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-11 10:00:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-11 15:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-11 15:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-11 15:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-11 16:00:00-06', 1200),
+
+-- 📅 Wed, Nov 12 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-12 09:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-12 09:20:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-12 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-12 10:00:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-12 15:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-12 15:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-12 15:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-12 16:00:00-06', 1200),
+
+-- 📅 Thu, Nov 13 2025
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-13 09:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-13 09:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-13 09:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-13 10:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-13 15:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-13 15:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-13 15:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-13 16:00:00-06', 1200),
+
+-- 📅 Fri, Nov 14 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-14 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-14 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-14 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-14 10:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-14 15:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-14 15:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-14 15:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-14 16:00:00-06', 1200),
+
+-- 📅 Sat, Nov 15 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-15 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-15 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-15 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-15 10:00:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-15 10:20:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-15 10:40:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-15 11:00:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-15 11:20:00-06', 1200),
+
+-- 📅 Mon, Nov 17 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-17 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-17 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-17 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-17 10:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-17 15:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-17 15:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-17 15:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-17 16:00:00-06', 1200),
+
+-- 📅 Tue, Nov 18 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-18 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-18 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-18 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-18 10:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-18 15:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-18 15:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-18 15:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-18 16:00:00-06', 1200),
+
+-- 📅 Wed, Nov 19 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-19 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-19 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-19 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-19 10:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-19 15:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-19 15:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-19 15:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-19 16:00:00-06', 1200),
+
+-- 📅 Thu, Nov 20 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-20 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-20 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-20 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-20 10:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-20 15:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-20 15:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-20 15:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-20 16:00:00-06', 1200),
+
+-- 📅 Fri, Nov 21 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-21 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-21 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-21 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-21 10:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-21 15:00:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-21 15:20:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-21 15:40:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-21 16:00:00-06', 1200),
+
+-- 📅 Sat, Nov 22 2025
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-22 09:00:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-22 09:20:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-22 09:40:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-22 10:00:00-06', 1200),
+(1, (SELECT nombre FROM pacientes WHERE id = 1), '2025-11-22 10:20:00-06', 1200),
+(2, (SELECT nombre FROM pacientes WHERE id = 2), '2025-11-22 10:40:00-06', 1200),
+(3, (SELECT nombre FROM pacientes WHERE id = 3), '2025-11-22 11:00:00-06', 1200),
+(4, (SELECT nombre FROM pacientes WHERE id = 4), '2025-11-22 11:20:00-06', 1200);
 
 -- ============================================================================
 -- HORARIOS
