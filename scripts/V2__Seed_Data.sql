@@ -194,16 +194,17 @@ INSERT INTO permisos (nombre, descripcion) VALUES
 ('ver-horarios', 'Permite visualizar los horarios laborales'),
 ('editar-horarios', 'Permite modificar los horarios laborales o especiales'),
 ('manejar-usuarios', 'Permite registrar y manejar usuarios dentro del sistema'),
-('ver-consultas', 'Permite ver consultas'),
-('manejar-consultas', 'Permite manejar consultas'),
-('ver-examenes', 'Permite ver examenes'),
-('manejar-examenes', 'Permite manejar examenes'),
-('ver-pacientes', 'Permite ver datos de pacientes'),
-('manejar-pacientes', 'Permite manejar pacientes'),
-('ver-cuestionarios', 'Permite ver cuestionarios'),
-('manejar-cuestionarios', 'Permite manejar cuestionarios'),
-('ver-citas', 'Permite ver citas'),
-('manejar-citas', 'Permite manejar citas');
+('ver-consultas', 'Permite ver consultas, al igual que sus tratamientos y diagnosticos'),
+('manejar-consultas', 'Permite manejar consultas, al igual que sus tratamientos y diagnosticos'),
+('ver-examenes', 'Permite ver examenes, al igual que descargar sus archivos adjuntos'),
+('manejar-examenes', 'Permite editar examenes y subir archivos adjuntos'),
+('ver-pacientes', 'Permite ver datos de pacientes, incluyendo historial medico'),
+('manejar-pacientes', 'Permite manejar pacientes, incluyendo historial medico'),
+('ver-cuestionarios', 'Permite ver los cuestionarios activos'),
+('manejar-cuestionarios', 'Permite modificar los cuestionarios'),
+('ver-citas', 'Permite ver informacion sobre citas'),
+('manejar-citas', 'Permite editar, actualizar y agendar citas'),
+('manejar-roles', 'Permite modificar los permisos de cada rol');
 
 INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
 (1, 1),
@@ -226,7 +227,8 @@ INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (3, 10),
 (3, 11),
 (3, 12),
-(3, 13);
+(3, 13),
+(3, 14);
 
 -- ============================================================================
 -- CITAS
