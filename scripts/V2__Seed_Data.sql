@@ -180,11 +180,6 @@ INSERT INTO tratamientos (nombre, componente_activo, presentacion, dosificacion,
 -- USUARIOS / ROLES / PERMISOS
 -- ============================================================================
 
-INSERT INTO usuarios (username, password_hash, correo) VALUES
-('pcastejon', '1234', 'pcastejon@gmail.com'),
-('jmerida', '1234', 'jmerida@gmail.com'),
-('jlopez', '1234', 'jlopez@gmail.com');
-
 INSERT INTO roles (nombre, descripcion) VALUES
 ('medico', 'Rol de medico: Tiene todos los permisos de manejo del programa'),
 ('secretario', 'Rol de secretario: Tiene los permisos que el medico designe'),
@@ -205,11 +200,6 @@ INSERT INTO permisos (nombre, descripcion) VALUES
 ('ver-citas', 'Permite ver informacion sobre citas'),
 ('manejar-citas', 'Permite editar, actualizar y agendar citas'),
 ('manejar-roles', 'Permite modificar los permisos de cada rol');
-
-INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES
-(1, 1),
-(2, 3),
-(3, 2);
 
 INSERT INTO roles_permisos (rol_id, permiso_id) VALUES
 (1, 2),
