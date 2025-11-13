@@ -12,7 +12,7 @@ CREATE TABLE pacientes (
     nombre VARCHAR NOT NULL,
     fecha_nacimiento DATE NOT NULL,
     telefono VARCHAR UNIQUE,
-    sexo VARCHAR NOT NULL
+    sexo VARCHAR NOT NULL CHECK (sexo IN ('Masculino', 'Femenino'))
 );
 
 CREATE TABLE antecedentes (
@@ -157,6 +157,8 @@ CREATE TABLE horarios_laborales (
     hora_apertura TIME,
     hora_cierre TIME,
     abierto BOOLEAN NOT NULL DEFAULT TRUE,
+    valid_from DATE NOT NULL DEFAULT CURRENT_DATE,
+    valid_to   DATE NOT NULL DEFAULT '9999-12-31',
     CHECK (
         (abierto = TRUE AND hora_apertura IS NOT NULL AND hora_cierre IS NOT NULL)
         OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
@@ -169,8 +171,6 @@ CREATE TABLE horarios_especiales (
     hora_apertura TIME,
     hora_cierre TIME,
     abierto BOOLEAN NOT NULL DEFAULT TRUE,
-    valid_from DATE NOT NULL DEFAULT CURRENT_DATE,
-    valid_to   DATE NOT NULL DEFAULT '9999-12-31',
     CHECK (
         (abierto = TRUE AND hora_apertura IS NOT NULL AND hora_cierre IS NOT NULL)
         OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
