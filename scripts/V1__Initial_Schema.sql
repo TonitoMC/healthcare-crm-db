@@ -169,6 +169,8 @@ CREATE TABLE horarios_especiales (
     hora_apertura TIME,
     hora_cierre TIME,
     abierto BOOLEAN NOT NULL DEFAULT TRUE,
+    valid_from DATE NOT NULL DEFAULT CURRENT_DATE,
+    valid_to   DATE NOT NULL DEFAULT '9999-12-31',
     CHECK (
         (abierto = TRUE AND hora_apertura IS NOT NULL AND hora_cierre IS NOT NULL)
         OR (abierto = FALSE AND hora_apertura IS NULL AND hora_cierre IS NULL)
@@ -177,16 +179,6 @@ CREATE TABLE horarios_especiales (
 
 
 CREATE EXTENSION IF NOT EXISTS btree_gist;
-
-ALTER TABLE horarios_laborales
-ADD CONSTRAINT no_overlap_laborales
-EXCLUDE USING gist (
-  dia_semana WITH =,
-  numrange(extract(epoch from hora_apertura),
-           extract(epoch from hora_cierre),
-           '[]') WITH &&
-)
-WHERE (abierto);
 
 ALTER TABLE horarios_especiales
 ADD CONSTRAINT no_overlap_especiales
