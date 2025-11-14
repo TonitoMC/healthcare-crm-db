@@ -66,7 +66,7 @@ CREATE TABLE respuestas_cuestionarios (
     id SERIAL PRIMARY KEY,
     paciente_id INTEGER REFERENCES pacientes(id),
     cuestionario_id INTEGER REFERENCES cuestionarios(id),
-    consulta_id INTEGER REFERENCES consultas(id),
+    consulta_id INTEGER REFERENCES consultas(id) ON DELETE CASCADE,
     respuestas JSONB NOT NULL,
     fecha TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT uq_cuestionario_consulta UNIQUE (consulta_id, cuestionario_id),
@@ -77,7 +77,7 @@ CREATE TABLE diagnosticos (
     id SERIAL PRIMARY KEY,
     recomendacion VARCHAR,
     nombre VARCHAR NOT NULL,
-    consulta_id INTEGER NOT NULL REFERENCES consultas(id)
+    consulta_id INTEGER NOT NULL REFERENCES consultas(id) ON DELETE CASCADE
 );
 
 CREATE TABLE tratamientos (
@@ -88,7 +88,7 @@ CREATE TABLE tratamientos (
     dosificacion TEXT NOT NULL,
     tiempo VARCHAR NOT NULL,
     frecuencia VARCHAR NOT NULL,
-    diagnostico_id INTEGER NOT NULL REFERENCES diagnosticos(id)
+    diagnostico_id INTEGER NOT NULL REFERENCES diagnosticos(id) ON DELETE CASCADE
 );
 
 CREATE TABLE examenes (
