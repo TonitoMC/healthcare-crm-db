@@ -3,8 +3,11 @@
 -- Drop old tables
 DROP SCHEMA public CASCADE;
 CREATE SCHEMA public;
-SET search_path TO public;
 
+
+CREATE EXTENSION IF NOT EXISTS unaccent SCHEMA public;
+
+SET search_path TO public;
 -- ========== TABLE DEFINITIONS ==========
 
 CREATE TABLE pacientes (
