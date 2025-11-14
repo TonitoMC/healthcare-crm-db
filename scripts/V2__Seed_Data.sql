@@ -404,3 +404,5 @@ INSERT INTO examenes (paciente_id, tipo, fecha) VALUES
 (1, 'Paquimetría', '2025-10-20'),
 (2, 'Refracción ciclopléjica', '2025-01-05'),
 (3, 'Curva de tensión ocular', '2025-07-01');
+
+
